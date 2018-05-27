@@ -1,6 +1,7 @@
 from selenium import webdriver
 import selenium.webdriver.common.keys as Keys
 import time
+import threading
 from dinosaur import dinosaur
 from capture import capture_feed
  
@@ -31,8 +32,10 @@ dino = dinosaur.Dino(driver=driver)
 #except KeyboardInterrupt:
 #    print('\n')
 
+# captures the dinosaur video feed
 capture_feed.start()
 
+# controls the dinosaur
 while True:
     dino.up()
 
