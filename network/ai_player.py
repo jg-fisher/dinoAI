@@ -3,10 +3,13 @@ import selenium
 from mss import mss
 import cv2
 import numpy as np
+import time
 
 model = load_model('./network/dino_ai_weights_post_train.h5')
 
-def predict(game_element, frame):
+start = time.time()
+
+def predict(game_element):
 
     # configuration for image capture
     sct = mss()
@@ -23,9 +26,7 @@ def predict(game_element, frame):
     # cropping, edge detection, resizing to fit expected model input
     img = img[::,75:615]
     img = cv2.Canny(img, threshold1=100, threshold2=200)
-    cv2.imwrite('game_frame_{0}.jpg'.format(frame), img)
-
-    img = cv2.imread('game_frame_{0}.jpg'.format(frame), cv2.IMREAD_GRAYSCALE)
+    img = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     img = cv2.resize(img, (0,0), fx=0.5, fy=0.5)
     img = img[np.newaxis, :, :, np.newaxis]
     img = np.array(img)
@@ -35,9 +36,14 @@ def predict(game_element, frame):
     prediction = y_prob.argmax(axis=-1)
 
     if prediction == 1:
+        # jump
         game_element.send_keys(u'\ue013')
+        print('jump')
+        time.sleep(.07)
     if prediction == 0:
+        # do nothing
         pass
     if prediction == 2:
+        # duck
         game_element.send_keys(u'\ue015')
 
