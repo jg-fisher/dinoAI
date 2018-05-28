@@ -53,3 +53,20 @@ def start():
                 cv2.destroyAllWindows()
                 break
 
+def play():
+    sct = mss()
+
+    coordinates = {
+        'top': 180,
+        'left': 315,
+        'width': 615,
+        'height': 160,
+    }
+
+    img = np.array(sct.grab(coordinates))
+
+    # crop out the dinosaur from the image array
+    img = img[::,75:615]
+
+    # edge detection to reduce amount of image processing work
+    img = cv2.Canny(img, threshold1=100, threshold2=200)
