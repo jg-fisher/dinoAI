@@ -26,7 +26,7 @@ def predict(game_element):
     # cropping, edge detection, resizing to fit expected model input
     img = img[::,75:615]
     img = cv2.Canny(img, threshold1=100, threshold2=200)
-    img = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     img = cv2.resize(img, (0,0), fx=0.5, fy=0.5)
     img = img[np.newaxis, :, :, np.newaxis]
     img = np.array(img)
