@@ -38,12 +38,14 @@ def predict(game_element):
     if prediction == 1:
         # jump
         game_element.send_keys(u'\ue013')
-        print('jump')
+        print('TO THE SKIES')
         time.sleep(.07)
     if prediction == 0:
+        print('CHILL')
         # do nothing
         pass
     if prediction == 2:
+        print('DUCKS')
         # duck
         game_element.send_keys(u'\ue015')
 
