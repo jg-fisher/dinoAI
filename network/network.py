@@ -1,15 +1,11 @@
 import keras
 from keras.models import load_model
-from keras.datasets import mnist
 from keras.models import Sequential
 from keras.layers import Dense, Flatten
 from keras.layers import Conv2D, MaxPooling2D
 from sklearn.model_selection import train_test_split
 import numpy as np
-import pandas as pd
 from sklearn import preprocessing
-import os
-from skimage import io
 import cv2
 
 # seed weights
@@ -56,13 +52,12 @@ model.add(MaxPooling2D(pool_size=(2, 2)))
 model.add(Flatten())
 model.add(Dense(250, activation='relu'))
 model.add(Dense(classifications, activation='softmax'))
-
-model.compile(loss="categorical_crossentropy",optimizer="adam", metrics=['accuracy'])
+model.compile(loss="categorical_crossentropy", optimizer="adam", metrics=['accuracy'])
 
 # tensorboard data callback
 tbCallBack = keras.callbacks.TensorBoard(log_dir='./Graph', histogram_freq=0, write_graph=True, write_images=True)
 
-model.fit(x_train, y_train, batch_size=250, epochs=50, validation_data=(x_test, y_test), callbacks=[tbCallBack])
+model.fit(x_train, y_train, batch_size=250, epochs=60, validation_data=(x_test, y_test), callbacks=[tbCallBack])
 
 # save weights post training
-#model.save('dino_ai_weights_post_train.h5')
+model.save('dino_ai_weights_post_train_2.h5')

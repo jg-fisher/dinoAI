@@ -3,6 +3,11 @@ from mss import mss
 import numpy as np
 import keyboard
 
+def preprocessing(img):
+    img = img[::,75:615]
+    img = cv2.Canny(img, threshold1=100, threshold2=200)
+    return img
+
 # captures dinosaur run game, designed for my personal computer (adjust coordinates resepctively)
 def start():
     """
@@ -19,15 +24,14 @@ def start():
     }
 
     with open('actions.csv', 'w') as csv:
+
         x = 0
+
+        if not os.path.exists(r'./images'):
+            os.mkdir(r'./images')
+
         while True:
-            img = np.array(sct.grab(coordinates))
-
-            # crop out the dinosaur from the image array
-            img = img[::,75:615]
-
-            # edge detection to reduce amount of image processing work
-            img = cv2.Canny(img, threshold1=100, threshold2=200)
+            img = preprocessing(np.array(sct.grab(coordinates)))
 
             if keyboard.is_pressed('up arrow'): 
                 cv2.imwrite('./images/frame_{0}.jpg'.format(x), img)
@@ -52,21 +56,3 @@ def start():
                 csv.close()
                 cv2.destroyAllWindows()
                 break
-
-def play():
-    sct = mss()
-
-    coordinates = {
-        'top': 180,
-        'left': 315,
-        'width': 615,
-        'height': 160,
-    }
-
-    img = np.array(sct.grab(coordinates))
-
-    # crop out the dinosaur from the image array
-    img = img[::,75:615]
-
-    # edge detection to reduce amount of image processing work
-    img = cv2.Canny(img, threshold1=100, threshold2=200)
