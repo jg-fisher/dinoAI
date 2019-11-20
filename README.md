@@ -16,3 +16,5 @@ Trains CNN on captured data.
 ### play_game.py
 
 Opens and plays game with trained network. Ensure wifi is off.
+
+You can navigate to `chrome://dino` to play without turning off your wifi. 
